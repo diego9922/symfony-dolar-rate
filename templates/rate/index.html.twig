@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dolar!{% endblock %}
+
+{% block body %}
+
+<div class="">
+    <form action="{{path(name='app_rate_index')}}">
+        <label>Año:</label>
+        <select name="year">
+            {%for y in 2000..2025%}
+            <option>
+                {{y}}
+            </option>
+            {%endfor%}
+        </select>
+
+        <label>Mes:</label>
+        <select name="month">
+            {%for m in 1..12%}
+            <option>
+                {{m}}
+            </option>
+            {%endfor%}
+        </select>
+
+        <input type="submit" value="Send Request" />
+    </form>
+
+    {% if isRequestedData %}
+    
+        <h2>Datos de consulta | Año: {{year}} Mes: {{month}}</h2>
+        <a href={{path(name='app_rate_download_xlsx', parameters={year:year, month:month})}}>Descargar excel</a>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Fecha</td>
+                        <td>Valor</td>
+                    </tr>
+                </thead>
+                <tbody>
+        {% for item in dolarRates %}
+                    <tr>
+                        <td>{{item['Fecha']}}</td>
+                        <td>{{item['Valor']}}</td>
+                    </tr>
+        {% else %}
+            <tr>
+            <td colspan="2">
+            <h3 style="color: red">Datos no encontrados, revise la informacion suministrada</h3>
+            </td>
+            <tr>
+        {% endfor %}
+                </tbody>
+            </table>
+    {% endif %}
+</div>
+{% endblock %}
