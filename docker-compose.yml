@@ -1,0 +1,13 @@
+services:
+  symfony-app:
+    container_name: symfony-app
+    tty: true
+    env_file: .env
+    ports:
+      - ${PORT}:80
+    volumes:
+      - ./:/var/www/html/
+      - /var/www/html/vendor/
+      - /var/www/html/var/
+    build:
+      dockerfile: Dockerfile
